@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "강우리헤어",
+    "slug": "hairshop_app_v1_customer",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon_hairshop.png",
+    "splash": {
+      "image": "./assets/splash_hairshop.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.hairshop.app2",
+      "icon": "./assets/icon_hairshop.png",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "android": {
+      "icon": "./assets/icon_hairshop.png",
+      "package": "com.hairshop.app2",
+      "versionCode": 1
+    },
+    "web": {
+      "favicon": "./assets/favicon_hairshop.png"
+    }
+  }
+}
