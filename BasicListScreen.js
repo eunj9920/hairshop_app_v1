@@ -181,6 +181,8 @@ class MyListItem extends React.PureComponent{
     
     // 전화번호에 - (하이픈) 추가하는 거
     var p_num = this.props.phone_num;
+    var name = this.props.name;
+    var sort = this.props.sort;
     {this.props.phone_num ? p_num = `${p_num.substring(0,3)}-${p_num.substring(3,7)}-${p_num.substring(7,11)}`: p_num = "" }
     
     return (      // ListData 이용해 List만들기
@@ -191,7 +193,7 @@ class MyListItem extends React.PureComponent{
           // height={77.5}
           // onPress={() => Alert.alert(`pressed on order #${id + 1}`)}   #4F90DD
         >
-          <ListItem.Part left row marginL-10 >
+          <ListItem.Part left row marginL-10 >       
             <Image assetName="icon_flowline" tintColor='#5847FF' style={{width:30 , height:60}} ></Image>  
             <ListItem.Part column flex-2>
               <View flex-2></View>
@@ -203,17 +205,16 @@ class MyListItem extends React.PureComponent{
           </ListItem.Part>
 
           
-          <ListItem.Part middle column marginL-20 >
+          <ListItem.Part middle column marginL-20 >     
             <View flex-5></View>
 
-            { !this.props.name  ? <Text flex-10 dark10 text70 numberOfLines={1}>{'예약자 없음'}</Text> : 
-              <Text flex-10 dark10 text70 numberOfLines={1}>{`${this.props.name.substring(0,1)} * *`}</Text> }
+            { !name  ? <Text flex-10 dark10 text70 numberOfLines={1}>{'예약자 없음'}</Text> : 
+              <Text flex-10 dark10 text70 numberOfLines={1}>{`${name.substring(0,1)} * * | ${sort}` }</Text> }
 
             <View flex-1></View>
           </ListItem.Part>
 
           <ListItem.Part right column center marginR-20> 
-              {/* <Text text90 dark40 style={{}}  numberOfLines={1}>{`${row.inventory.quantity} item`}</Text> */}
             
             {this.props.res_ok == 0 ? <Button label="예약가능" size={Button.sizes.small} outline></Button> : <Button label="예약완료" size={Button.sizes.small}></Button>}
           </ListItem.Part>
@@ -232,8 +233,6 @@ export default class BasicListScreen extends Component {
     super(props);
 
     this.state = {
-      onEdit: false,
-      updating: false,
       isLoading: true,
       listData: [],
       isRefreshing: false,
@@ -252,7 +251,7 @@ export default class BasicListScreen extends Component {
     () => {
       this.getData();
       this.setState({
-        isRefreshing: false
+        isRefreshing: false    // refreshing 멈춤
       })
     });
   }
@@ -344,13 +343,13 @@ export default class BasicListScreen extends Component {
   getData = async () => {
     try{
       const { data : { data } } = await axios.get('http://146.56.170.191/select_with_date3.php', {
-        // date와 time_id로 찾기
+        // 오늘날짜로 data 가져오기
         params:{
           date: this.today,
         }  
       });
 
-      const {listData} = this.state;
+      const {listData} = this.state;  
 
       // 임시 배열 만든다음, 임시배열에 가져온 데이터 다 집어놓고, 그런다음 setState 마지막에 한번만
       listTmp = [];
@@ -360,6 +359,7 @@ export default class BasicListScreen extends Component {
         listTmp = listTmp.concat({
             id: data[i].id,
             name: data[i].name,
+            sort : data[i].sort,
             date : data[i].res_date,
             res_ok : data[i].res_ok,
             time_range_id : data[i].time_range_id,
@@ -386,12 +386,13 @@ export default class BasicListScreen extends Component {
   
   }
   
+  // render() 함수 출력 후 이 함수 호출
   componentDidMount() {
     console.log(this.today);
-    this.getData();
+    this.getData();   // 서버에서 데이터 가져오기
   }
 
-  keyExtractor = item => item.time_range_id;
+  keyExtractor = item => item.time_range_id;     // flatlist의 고유 id를 설정하기 위한거
 
   render() {
     const {isLoading,listData,isRefreshing} = this.state;
@@ -403,7 +404,7 @@ export default class BasicListScreen extends Component {
           //data={orders}
           //renderItem={ ({item,index}) => this.renderRow(item, index) }
           renderItem={ ({item}) => (
-            <MyListItem id={item.id} name={item.name} phone_num={item.phone_num} time_range_id={item.time_range_id} time1={item.time1} time2={item.time2} res_ok={item.res_ok}></MyListItem>
+            <MyListItem id={item.id} name={item.name} phone_num={item.phone_num} sort={item.sort} time_range_id={item.time_range_id} time1={item.time1} time2={item.time2} res_ok={item.res_ok}></MyListItem>
           ) }
           keyExtractor={this.keyExtractor}
           refreshControl={<RefreshControl refreshing={isRefreshing} onRefresh={this.handleRefresh} />}
@@ -414,12 +415,6 @@ export default class BasicListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 54,
-    height: 54,
-    borderRadius: BorderRadiuses.br20,
-    marginHorizontal: 14
-  },
   border: {
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.dark70

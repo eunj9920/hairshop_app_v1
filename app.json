@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon_hairshop.png",
     "splash": {
-      "image": "./assets/splash_hairshop.png",
+      "image": "./assets/splash_hairshop2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

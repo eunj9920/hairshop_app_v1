@@ -1,14 +1,14 @@
 import React from 'react';
 import axios from "axios"
 import BasicListScreen from './BasicListScreen'
-import { Text, Linking } from "react-native";
+import { Text, Linking, BackHandler, Platform, ToastAndroid } from "react-native";
 import { View, Button } from 'react-native-ui-lib';
-// import {  TopNav } from 'react-native-rapi-ui';
 import { StatusBar } from 'expo-status-bar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -37,16 +37,16 @@ function sleep (ms) {
   );
 }
 async function delay_splash() {
-    await SplashScreen.preventAutoHideAsync();
-    await sleep(2000);
-    await SplashScreen.hideAsync();    
+    await SplashScreen.preventAutoHideAsync();    // 스크린 없어지는거 일단 막음
+    await sleep(2000);                           // 2초 기다림
+    await SplashScreen.hideAsync();             // 2초 기다린 후 스크린 없어지게끔
 };
  
 
 class Home extends React.Component {
 
   state = {
-    fontsLoaded: false,
+
   };
 
   // 현재날짜에 value만큼 더한 날짜의 요일을 반환
@@ -77,7 +77,7 @@ class Home extends React.Component {
     return `${date.getDate()}${this.getYoil(order)}`;
   }
 
-  // 현재날짜에 order만큼 더한 날짜를 22 형태로 반환
+  // 현재날짜에 order만큼 더한 날짜를 '22' 형태로 반환
   getTabDay = (order) =>{
     var date = new Date();
     date.setDate(date.getDate() + order);
@@ -91,7 +91,7 @@ class Home extends React.Component {
     return this.getYoil(order);
   }
 
-  // 현재날짜에 order만큼 더한 날짜를 2021-7-18 일 형태로 반환
+  // 현재날짜에 order만큼 더한 날짜를 '2021-7-18' 형태로 반환
   getAfterDate = (order) =>{
     var date = new Date();
     date.setDate(date.getDate() + order);
@@ -143,11 +143,10 @@ class Home extends React.Component {
 
 
   render(){  
-    // splash screen 기다리기
-    delay_splash();
+    
     return (
       <View flex-1  > 
-        <StatusBar style="auto" />
+        <StatusBar style="auto" /> 
         {/* <TopNav middleContent="강우리헤어" borderColor="#F5F6F7" middleTextStyle={{fontSize:18, fontWeight:"bold"}}></TopNav> */}
           <Tab.Navigator
             initialRouteName="Tab1"                               // 시작 탭 지정
@@ -260,6 +259,7 @@ class Home extends React.Component {
                 
               },
             })}
+            backBehavior="none"
             tabBarOptions={{
               activeTintColor: 'black',
               labelStyle: { fontSize: 12, fontWeight: 'bold' },
@@ -315,6 +315,7 @@ class Home extends React.Component {
             />
           </Tab.Navigator>
 
+            
         <Button label="전화걸기" margin-10 size={Button.sizes.large} onPress={ ()=>{Linking.openURL('tel:0220662066');} }></Button>
         
       </View>
@@ -322,23 +323,69 @@ class Home extends React.Component {
   }
 }
 
-function App() {
+class App extends React.Component {
+  // 뒤로가기 버튼눌렀을때 종료되는 이벤트 등록
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-  return(
-    <NavigationContainer theme={MyTheme}>
-      
-      <Stack.Navigator  initialRouteName="Home"  style={{backgroundColor: 'white'}}>
-        <Stack.Screen name="Home" component={Home}  options={{
-          title: '강우리헤어',
-          headerTitleStyle: {
-            fontWeight: 'bold',
-          },
-        }} />
+  // 뒤로가기 버튼눌렀을때 종료되는 이벤트 해제
+  componentWillUnmount() {
+      this.exitApp = false;
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
 
-      </Stack.Navigator>
+  // 이벤트 동작
+  handleBackButton = () => {
+    // 2000(2초) 안에 back 버튼을 한번 더 클릭 할 경우 앱 종료
+    if (this.exitApp == undefined || !this.exitApp) {
+        ToastAndroid.show('한번 더 누르시면 종료됩니다.', ToastAndroid.SHORT);
+        this.exitApp = true;
 
-    </NavigationContainer>
-  )
+        this.timeout = setTimeout(
+            () => {
+                this.exitApp = false;
+            },
+            2000    // 2초
+        );
+    } else {
+        clearTimeout(this.timeout);
+
+        BackHandler.exitApp();  // 앱 종료
+    }
+    return true;
+  }
+
+
+  render() {
+    // splash screen 기다리기
+    delay_splash();
+    return(
+      <NavigationContainer theme={MyTheme}>
+        
+        <Stack.Navigator  initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home}  options={{
+            title: '강우리헤어',
+            headerTitleStyle: {
+              alignSelf : 'center',
+              fontWeight: 'normal',
+              fontSize : 17
+            },
+            // headerRight: () => (
+            //   <HeaderButtons >
+            //     { Platform.OS === 'android' ? 
+            //     <Item title="새로고침" onPress={ this.reRender } />
+            //     : null 
+            //     }
+            //   </HeaderButtons>
+            // ),
+          }} />
+
+        </Stack.Navigator>
+
+      </NavigationContainer>
+    )
+  }
 
 }
 
