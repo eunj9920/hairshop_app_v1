@@ -1,25 +1,25 @@
 {
   "files": {
-    "app.js": "/static/js/app.eacef4d1.chunk.js",
-    "app.js.map": "/static/js/app.eacef4d1.chunk.js.map",
-    "runtime~app.js": "/static/js/runtime~app.2e9f1821.js",
-    "runtime~app.js.map": "/static/js/runtime~app.2e9f1821.js.map",
-    "static/js/2.0d88ff7a.chunk.js": "/static/js/2.0d88ff7a.chunk.js",
-    "static/js/2.0d88ff7a.chunk.js.map": "/static/js/2.0d88ff7a.chunk.js.map",
-    "favicon-16.png": "/favicon-16.png",
-    "favicon-32.png": "/favicon-32.png",
-    "favicon.ico": "/favicon.ico",
-    "index.html": "/index.html",
-    "manifest.json": "/manifest.json",
-    "serve.json": "/serve.json",
-    "static/js/2.0d88ff7a.chunk.js.LICENSE.txt": "/static/js/2.0d88ff7a.chunk.js.LICENSE.txt",
-    "static/media/TransparentSwatch.png": "/static/media/TransparentSwatch.3689fd00.png",
-    "static/media/gradientOverlay.png": "/static/media/gradientOverlay.7d102364.png",
-    "static/media/noun_flowline.png": "/static/media/noun_flowline.34981ac7.png"
+    "app.js": "/hairshop_app_v1/static/js/app.eacef4d1.chunk.js",
+    "app.js.map": "/hairshop_app_v1/static/js/app.eacef4d1.chunk.js.map",
+    "runtime~app.js": "/hairshop_app_v1/static/js/runtime~app.15bb794c.js",
+    "runtime~app.js.map": "/hairshop_app_v1/static/js/runtime~app.15bb794c.js.map",
+    "static/js/2.e98ef60d.chunk.js": "/hairshop_app_v1/static/js/2.e98ef60d.chunk.js",
+    "static/js/2.e98ef60d.chunk.js.map": "/hairshop_app_v1/static/js/2.e98ef60d.chunk.js.map",
+    "favicon-16.png": "/hairshop_app_v1/favicon-16.png",
+    "favicon-32.png": "/hairshop_app_v1/favicon-32.png",
+    "favicon.ico": "/hairshop_app_v1/favicon.ico",
+    "index.html": "/hairshop_app_v1/index.html",
+    "manifest.json": "/hairshop_app_v1/manifest.json",
+    "serve.json": "/hairshop_app_v1/serve.json",
+    "static/js/2.e98ef60d.chunk.js.LICENSE.txt": "/hairshop_app_v1/static/js/2.e98ef60d.chunk.js.LICENSE.txt",
+    "static/media/TransparentSwatch.png": "/hairshop_app_v1/static/media/TransparentSwatch.3689fd00.png",
+    "static/media/gradientOverlay.png": "/hairshop_app_v1/static/media/gradientOverlay.7d102364.png",
+    "static/media/noun_flowline.png": "/hairshop_app_v1/static/media/noun_flowline.34981ac7.png"
   },
   "entrypoints": [
-    "static/js/runtime~app.2e9f1821.js",
-    "static/js/2.0d88ff7a.chunk.js",
+    "static/js/runtime~app.15bb794c.js",
+    "static/js/2.e98ef60d.chunk.js",
     "static/js/app.eacef4d1.chunk.js"
   ]
 }
