@@ -16,6 +16,10 @@ KangUri Hairshop
    <img src="https://user-images.githubusercontent.com/17228989/131146926-71354cad-a867-41d8-b000-42ecf9e53170.png" width="200" height="420"/>
    <img src="https://user-images.githubusercontent.com/17228989/131147106-cfcbf46e-e245-4a37-93b8-039de0c971b4.png" width="200" height="420"/>
 
+## 다운로드(Download)
+
+[![구글 플레이스토어](https://user-images.githubusercontent.com/17228989/131153930-527cb5d1-8fba-42db-8721-ef6f599f361c.png)](https://play.google.com/store/apps/details?id=com.hairshop.app2)
+
 
 ## 위치(Location)
 
