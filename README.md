@@ -7,7 +7,7 @@ KangUri Hairshop
 ## 스크린샷(Screenshot)
 
 1. 안드로이드(Android)
-  * ![splash screen]
+  * ![splash screen](https://user-images.githubusercontent.com/17228989/131147162-c048586f-6539-4b08-891f-39c464a5a3d5.png)
 2. IOS
 
 ## 위치(Location)
