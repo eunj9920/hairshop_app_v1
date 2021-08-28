@@ -33,4 +33,6 @@ KangUri Hairshop
 
 [![구글 플레이스토어](https://user-images.githubusercontent.com/17228989/131153930-527cb5d1-8fba-42db-8721-ef6f599f361c.png)](https://play.google.com/store/apps/details?id=com.hairshop.app2)
 
+[![애플 앱스토어](https://user-images.githubusercontent.com/17228989/131206531-892b47c0-2e65-452d-a5f2-5e24eb25314c.png)](https://apps.apple.com/kr/app/%EA%B0%95%EC%9A%B0%EB%A6%AC%ED%97%A4%EC%96%B4/id1582987188#?platform=iphone)
+
 
