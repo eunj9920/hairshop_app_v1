@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from "axios"
 import BasicListScreen from './BasicListScreen'
-import { Text, Linking, BackHandler, Platform, ToastAndroid } from "react-native";
+import { Text, Linking, BackHandler, Platform, ToastAndroid, Alert } from "react-native";
 import { View, Button } from 'react-native-ui-lib';
 import { StatusBar } from 'expo-status-bar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -324,6 +324,11 @@ class Home extends React.Component {
 }
 
 class App extends React.Component {
+
+  state = {
+    notice_msg : "없음"
+  };
+
   // 뒤로가기 버튼눌렀을때 종료되는 이벤트 등록
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
@@ -356,10 +361,65 @@ class App extends React.Component {
     return true;
   }
 
+  // 공지DB에서 가장 최근에 입력한 공지 1건 가져오기
+  getData = async () => {
+    try{
+      const { data : { data } } = await axios.get('http://146.56.170.191/select_notice.php');
+
+      if (data) {
+        this.setState({ notice_msg: data[0].message })
+      }
+      else{
+        this.setState({ notice_msg: "없음" })
+      }
+    } catch (error){
+      console.error(error);
+    }
+  }
+
+  // 공지사항창 띄우기
+  noticeAlert = () => {
+    this.getData(); // 공지 있으면 업데이트
+
+    Alert.alert("공지사항", this.state.notice_msg, [
+      { text: "예", onPress: () => console.log("Yes Pressed")  }
+    ]);
+  }
+
+  // 맨 처음 앱 들어갈때 스플래쉬 스크린 이후에 바로 메인화면 위에 공지사항창 띄우기 위한것
+  getFirstNotice = async () => {
+    try{
+      const { data : { data } } = await axios.get('http://146.56.170.191/select_notice.php');
+
+      if (data) {
+        this.setState({ notice_msg: data[0].message });
+        console.log("있음");
+        Alert.alert("공지사항", data[0].message, [          // 공지사항이 있으면 alert창 띄우기
+          { text: "예", onPress: () => console.log("Yes Pressed")  }
+        ]);
+      }
+      else{                                                 // 공지사항이 없으면 alert창 안띄움(평소대로 화면 확인가능)
+        this.setState({ notice_msg: "없음" });
+        console.log("없음"); 
+      }
+    } catch (error){
+      console.error(error);
+    }
+  }
+
+  // 렌더링이 끝난후(componentDidMount)의 상태일때! 아래처럼 해야함-> 왜냐면 render함수 아래에 delay_splash 호출하고 getFirstNotice 호출시 스플래쉬 화면이 나오기도전에
+  // 공지사항부터 띄워지는 문제가 있었음
+  async componentDidMount() {
+    await SplashScreen.preventAutoHideAsync();  // 스플래쉬 스크린 띄운상태
+    this.getFirstNotice();                      // 공지사항이 있으면 공지사항을 메인화면 앞에 띄우기 
+    await SplashScreen.hideAsync();             // 스플래쉬 스크린 끄기
+  }
+
 
   render() {
     // splash screen 기다리기
-    delay_splash();
+    //delay_splash();
+    
     return(
       <NavigationContainer theme={MyTheme}>
         
@@ -367,18 +427,15 @@ class App extends React.Component {
           <Stack.Screen name="Home" component={Home}  options={{
             title: '강우리헤어',
             headerTitleStyle: {
-              alignSelf : 'center',
+              //alignSelf : 'center',
               fontWeight: 'normal',
               fontSize : 17
             },
-            // headerRight: () => (
-            //   <HeaderButtons >
-            //     { Platform.OS === 'android' ? 
-            //     <Item title="새로고침" onPress={ this.reRender } />
-            //     : null 
-            //     }
-            //   </HeaderButtons>
-            // ),
+            headerRight: () => (
+              <HeaderButtons >
+                <Item title="공지" onPress={ () => this.noticeAlert() } />
+              </HeaderButtons>
+            ),
           }} />
 
         </Stack.Navigator>
