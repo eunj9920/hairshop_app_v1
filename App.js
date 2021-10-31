@@ -100,39 +100,39 @@ class Home extends React.Component {
 
 
   // 예약DB에서 날짜와 타임id에 따라 정보 가져오기
-  getData = async () => {
-    try{
-      const { data : { data } } = await axios.get('http://146.56.170.191/select_with_date.php', {
-        // date와 time_id로 찾기
-        params:{
-          date: '2021-07-16',
-          time_id: 25
-        }  
-      });
-      console.log(data);
-    } catch (error){
-      console.error(error);
-    }
-  }
+  // getData = async () => {
+  //   try{
+  //     const { data : { data } } = await axios.get('http://146.56.170.191/select_with_date.php', {
+  //       // date와 time_id로 찾기
+  //       params:{
+  //         date: '2021-07-16',
+  //         time_id: 25
+  //       }  
+  //     });
+  //     console.log(data);
+  //   } catch (error){
+  //     console.error(error);
+  //   }
+  // }
 
   // 예약정보받고 DB에 있는 예약테이블 업데이트
-  insertData = async() =>{
-    await axios.post('http://146.56.170.191/update_res.php', {
-      //date와 time_id 로 유저 찾고, name 과 phone_num과 res_ok 업데이트
-      name: '강혁준2',
-      phone_num: '01022222222',
-      date: '2021-07-16',
-      time_id: 25,
-      res_ok: 1
+  // insertData = async() =>{
+  //   await axios.post('http://146.56.170.191/update_res.php', {
+  //     //date와 time_id 로 유저 찾고, name 과 phone_num과 res_ok 업데이트
+  //     name: '강혁준2',
+  //     phone_num: '01022222222',
+  //     date: '2021-07-16',
+  //     time_id: 25,
+  //     res_ok: 1
       
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
+  //   })
+  //   .then(function (response) {
+  //     console.log(response);
+  //   })
+  //   .catch(function (error) {
+  //     console.log(error);
+  //   });
+  // }
 
   // componentDidMount() {
   //   this.prepare();
@@ -364,7 +364,9 @@ class App extends React.Component {
   // 공지DB에서 가장 최근에 입력한 공지 1건 가져오기
   getData = async () => {
     try{
-      const { data : { data } } = await axios.get('http://146.56.170.191/select_notice.php');
+      const { data : { data } } = await axios.post('http://146.56.170.191/select_notice.php',{
+        msg: 'thisisselectnotice'
+      });
 
       if (data) {
         this.setState({ notice_msg: data[0].message })
@@ -389,7 +391,9 @@ class App extends React.Component {
   // 맨 처음 앱 들어갈때 스플래쉬 스크린 이후에 바로 메인화면 위에 공지사항창 띄우기 위한것
   getFirstNotice = async () => {
     try{
-      const { data : { data } } = await axios.get('http://146.56.170.191/select_notice.php');
+      const { data : { data } } = await axios.post('http://146.56.170.191/select_notice.php',{
+        msg: 'thisisselectnotice'
+      });
 
       if (data) {
         this.setState({ notice_msg: data[0].message });
